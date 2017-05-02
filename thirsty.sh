@@ -1,6 +1,6 @@
 #!/bin/sh
 
-WATER_TIME=${WATER_TIME:-10800} # Set time interval in seconds
+WATER_TIME=1800 # Set time interval in seconds
 DRINK_WATER_CONF="${DRINK_WATER_CONF:-$HOME/.water}"
 
 drink_water() {
@@ -13,16 +13,22 @@ drink_water() {
   next_time=$(($(tail -1 $DRINK_WATER_CONF) + $WATER_TIME))
 
   if [ $next_time -lt $(date +%s) ]; then
-    echo -n "💧 You're thirsty"
+    echo -n "💧  Thirsty ? ~ "
   fi
 }
 
-not_thirsty() {
+drank() {
   date +%s > $DRINK_WATER_CONF
-  echo "Water is essential"
+  echo "💧"
+}
+
+no() {
+  date +%s > $DRINK_WATER_CONF
+  echo "💧"
 }
 
 next_drink() {
   next_time=$(($(cat $DRINK_WATER_CONF) + $WATER_TIME))
   echo "Next drink at $(date --date="@$next_time")"
 }
+
